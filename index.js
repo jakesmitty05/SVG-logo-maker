@@ -6,8 +6,8 @@ const Circle = require('./lib/shapes.js');
 const Square = require('./lib/shapes.js');
 
 
-const getInfo = ({text, textColor, shape, shapeColor}) => 
-    inquirer
+
+inquirer
     .prompt([
     {
         type: 'input',
@@ -32,15 +32,13 @@ const getInfo = ({text, textColor, shape, shapeColor}) =>
     },
     ])
     .then((res) => {
+        var svgFileContent
         if (res.shape = 'Triangle') {
-            const svgFileContent = new Triangle(res)
-
+            svgFileContent = new Triangle().createDocument(res.text, res.textColor, res.shapeColor)
         } else if (res.shape = 'Circle') {
-            const svgFileContent = new Circle(res)
-
+            svgFileContent = new Circle().createDocument(res.text, res.textColor, res.shapeColor)
         } else {
-            const svgFileContent = new Square(res)
-
+            svgFileContent = new Square().createDocument(res.text, res.textColor, res.shapeColor)
         }
 
         fs.writeFile('logo.svg', svgFileContent, (err) =>
