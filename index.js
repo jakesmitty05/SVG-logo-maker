@@ -1,11 +1,7 @@
 const inquirer = require('inquirer')
 const fs = require('fs');
 
-const Triangle = require('./lib/shapes.js');
-const Circle = require('./lib/shapes.js');
-const Square = require('./lib/shapes.js');
-
-
+const shapes = require('./lib/shapes.js');
 
 inquirer
     .prompt([
@@ -32,17 +28,25 @@ inquirer
     },
     ])
     .then((res) => {
-        var svgFileContent
-        if (res.shape = 'Triangle') {
-            svgFileContent = new Triangle().createDocument(res.text, res.textColor, res.shapeColor)
-        } else if (res.shape = 'Circle') {
-            svgFileContent = new Circle().createDocument(res.text, res.textColor, res.shapeColor)
+        console.log(res.shape)
+        const choseShape = res.shape
+        if (choseShape === 'Triangle') {
+            const tri = new shapes.Triangle(res.text, res.textColor, res.shapeColor)
+            const svgFileContent = tri.createTriangle()
+            makeSVG(svgFileContent)
+        } else if (choseShape === 'Circle') {
+            const cir = new shapes.Circle(res.text, res.textColor, res.shapeColor)
+            const svgFileContent = cir.createCircle()
+            makeSVG(svgFileContent)
         } else {
-            svgFileContent = new Square().createDocument(res.text, res.textColor, res.shapeColor)
+            const squ = new shapes.Square(res.text, res.textColor, res.shapeColor)
+            const svgFileContent = squ.createSquare()
+            makeSVG(svgFileContent)
         }
 
-        fs.writeFile('logo.svg', svgFileContent, (err) =>
-      err ? console.log(err) : console.log('Successfully created logo.svg!')
-    );
-
+        function makeSVG(inp) {
+          fs.writeFile('logo.svg', inp, (err) =>
+            err ? console.log(err) : console.log('Successfully created logo.svg!')
+         );
+        }
     })
